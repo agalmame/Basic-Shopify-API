@@ -354,10 +354,13 @@ class BasicShopifyAPI implements SessionAware, ClientAware
         if (array_key_exists('shop', $params)
             && array_key_exists('timestamp', $params)
             && array_key_exists('hmac', $params)
+            && array_key_exists('code',$params)
         ) {
             // Grab the HMAC, remove it from the params, then sort the params for hashing
             $hmac = $params['hmac'];
             unset($params['hmac']);
+            //remove from url the treoq query which is not included in the hash process from shopify side.
+            unset($params['treoq']);
             ksort($params);
 
             // Encode and hash the params (without HMAC), add the API secret, and compare to the HMAC from params
